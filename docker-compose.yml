@@ -1,0 +1,42 @@
+# Especificamos la version del compose
+
+version:  "3"
+
+#Especificamos los contenedores que vamos a crear
+# web: nombre del contenedor
+#     container_name: nombre de la aplicacion
+#     restart: en caso de error que hacer, en este caso, reiniciar siempre
+#     build: donde se encuentra el dockerfile a construit
+#     port: puertos
+#         - "puerto al que acceder al contenedor:puerto que expone el contenedor"
+#     links:
+#       - imagen a enlazar
+#     volumes:
+#       - directorio actual:ruta a copiar (de esta manera nos evitamos parar el docker-compose)
+#                                         cada vez que codificamos algo nuevo
+services:
+  web:
+      container_name: exampleapp
+      restart: always
+      build: .
+      ports:
+        - "5000:3000"
+      links:
+        - mongodb
+      volumes:
+        - .:/usr/src/app-docker-node-mongo
+#Especificamos los contenedores que vamos a crear
+# mongodb: nombre del contenedor
+#     container_name: nmymongobd
+#     image: imagen a obtener, en caso de no tenerla se descarga
+#     port: puertos
+#         - "puerto al que acceder al contenedor:puerto que expone el contenedor"
+#     logging:
+#       driver:none no muestra logs
+  mongodb:
+      container_name: mymongobd
+      image: mongo
+      ports:
+        - "27018:27017"
+      logging:
+        driver: none
